@@ -1,7 +1,7 @@
 <?php
 namespace app\api\service;
 use exception\WeiCateException;
-use exception\TokenException;
+use exception\CacheException;
 use app\api\model\UserModel;
 use enum\PermissionEnum;
 
@@ -93,7 +93,7 @@ class UserToken extends Token
 
     $cache = \cache($key, $value, $expired_time);
     if (!$cache) {
-      throw new TokenException('服务器缓存异常');
+      throw new CacheException('服务器缓存异常');
     }
     return $key;
   }

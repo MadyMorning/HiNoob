@@ -32,3 +32,6 @@ Route::get('api/:version/category', 'api/:version.Category/getCategoryList');   
 Route::get('api/:version/category/:id', 'api/:version.Category/getProduct');    //获取分类下商品
 
 Route::get('api/:version/token/user', 'api/:version.Token/getToken');   //获取Token
+
+Route::post('api/:version/address/create', 'api/:version.Address/createAddress');   //添加地址
+Route::put('api/:version/address/update', 'api/:version.Address/updateAddress');   //更新地址
