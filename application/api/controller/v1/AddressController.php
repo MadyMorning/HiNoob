@@ -10,13 +10,32 @@ use app\api\model\UserModel;
 use app\api\model\UserAddressModel;
 use exception\ResourceException;
 use exception\RequestFailedException;
+use exception\PermissionException;
 use exception\SuccessMessage;
+use enum\PermissionEnum;
 
 /**
  * 地址Controller
  */
 class AddressController extends BaseController
 {
+  // protected $beforeActionList = [
+  //   'front' => ['only'=>'createAddress'],
+  // ];
+
+  /**
+   * 前置方法
+   * @return 返回boolean值或错误信息
+   */
+  protected function front()
+  {
+    $permission = Token::getTokenValue('permission');
+    if ($permission < PermissionEnum::manage) {
+      throw new PermissionException('权限不足');
+    }
+
+    return true;
+  }
 
   /**
    * 新增地址
@@ -24,6 +43,7 @@ class AddressController extends BaseController
    */
   public function createAddress()
   {
+    $this->front();
     // 合法性验证
     $validate = new CreateAddressValidate();
     $validate->gocheck();
@@ -44,16 +64,26 @@ class AddressController extends BaseController
     }
 
     // 关联新增
-    $addressInfo = $userInfo->address()->save($data);
-    if ($addressInfo) {
-      throw new SuccessMessage('添加成功');
+    try {
+      $addressInfo = $userInfo->address()->save($data);
+      if ($addressInfo) {
+        return \json([
+          'message' => '添加成功',
+          'error_code' => 0
+        ]);
+      }
+    } catch (\Exception $e) {
+      throw new RequestFailedException($e->getMessage());
     }
-    throw new RequestFailedException($addressInfo->error);
   }
 
-
+  /**
+   * 更新地址
+   * @return object 返回提示信息
+   */
   public function updateAddress()
   {
+    $this->front();
     // 合法性验证
     $validate = new UpdateAddressValidate();
     $validate->gocheck();
@@ -72,9 +102,15 @@ class AddressController extends BaseController
       throw new RequestFailedException('没有要更新的信息');
     }
 
-    if ($addressInfo->save($data)) {
-      throw new SuccessMessage('更新成功');
+    try {
+      if ($addressInfo->save($data)) {
+        return \json([
+          'message' => '添加成功',
+          'error_code' => 0
+        ]);
+      }
+    } catch (\Exception $e) {
+      throw new RequestFailedException($e->getMessage());
     }
-    throw new RequestFailedException($addressInfo->error);
   }
 }
