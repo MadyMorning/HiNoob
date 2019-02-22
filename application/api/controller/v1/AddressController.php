@@ -24,26 +24,12 @@ class AddressController extends BaseController
   // ];
 
   /**
-   * 前置方法
-   * @return 返回boolean值或错误信息
-   */
-  protected function front()
-  {
-    $permission = Token::getTokenValue('permission');
-    if ($permission < PermissionEnum::manage) {
-      throw new PermissionException('权限不足');
-    }
-
-    return true;
-  }
-
-  /**
    * 新增地址
    * @return object 返回提示信息
    */
   public function createAddress()
   {
-    $this->front();
+    $this->userAndhigher();
     // 合法性验证
     $validate = new CreateAddressValidate();
     $validate->gocheck();
@@ -83,7 +69,7 @@ class AddressController extends BaseController
    */
   public function updateAddress()
   {
-    $this->front();
+    $this->userAndhigher();
     // 合法性验证
     $validate = new UpdateAddressValidate();
     $validate->gocheck();
