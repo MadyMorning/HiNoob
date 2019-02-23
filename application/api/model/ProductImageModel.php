@@ -2,9 +2,10 @@
 
 namespace app\api\model;
 
-use think\Model;
-
-class ProductImageModel extends Model
+/**
+ * 商品详情图片Model
+ */
+class ProductImageModel extends BaseModel
 {
   protected $hidden = ['id', 'product_id', 'delete_time', 'update_time', 'img_id'];
 

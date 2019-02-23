@@ -16,9 +16,9 @@ class BaseValidate extends Validate
   {
     $data = \request()->param();
 
-    $request = $this->check($data);
+    $result = $this->check($data);
 
-    if (!$request) {
+    if (!$result) {
       throw new ParameterException($this->error);
     }
 
@@ -42,7 +42,7 @@ class BaseValidate extends Validate
   /**
    * 根据验证规则获取所需数据
    * @param  array $array 客户端传递来的参数
-   * @return [type]        [description]
+   * @return array        返回所需数据
    */
   public function getDataByRule($array)
   {
