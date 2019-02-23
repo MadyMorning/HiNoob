@@ -7,7 +7,7 @@ namespace app\api\model;
  */
 class ProductModel extends BaseModel
 {
-  protected $hidden = ['id', 'delete_time', 'update_time', 'main_img_url', 'from', 'create_time', 'pivot', 'category_id', 'img_id'];
+  protected $hidden = ['delete_time', 'update_time', 'main_img_url', 'from', 'create_time', 'pivot', 'category_id', 'img_id'];
 
   /**
    * 关联 ImageModel 模型

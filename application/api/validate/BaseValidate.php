@@ -16,9 +16,9 @@ class BaseValidate extends Validate
   {
     $data = \request()->param();
 
-    $request = $this->check($data);
+    $result = $this->check($data);
 
-    if (!$request) {
+    if (!$result) {
       throw new ParameterException($this->error);
     }
 

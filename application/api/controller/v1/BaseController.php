@@ -4,6 +4,9 @@ namespace app\api\controller\v1;
 
 use think\Controller;
 use think\Request;
+use app\api\service\Token;
+use enum\PermissionEnum;
+use exception\PermissionException;
 
 /**
  * 公有Controller

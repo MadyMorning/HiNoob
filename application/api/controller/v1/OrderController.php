@@ -4,6 +4,7 @@ namespace app\api\controller\v1;
 
 use think\Request;
 use app\api\service\Token;
+use app\api\service\OrderService;
 use app\api\validate\OrderValidate;
 /**
  * 订单Controller
@@ -21,6 +22,7 @@ class OrderController extends BaseController
 
   /**
    * 提交订单
+   * @return object    返回订单信息
    */
   public function submitOrders()
   {
@@ -29,9 +31,11 @@ class OrderController extends BaseController
     (new OrderValidate())->gocheck();
 
     // $order_products = \input('post.products/a');
-    $order_products = \request()->post('products/a');
+    $order_products = \request()->post();
     $uid = Token::getTokenUID();
+    $orderService = new OrderService();
+    $result = $orderService->placeOrder($uid, $order_products);
 
-
+    return \json($result);
   }
 }
