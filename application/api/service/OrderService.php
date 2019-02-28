@@ -251,4 +251,18 @@ class OrderService
                . sprintf('%02d', rand(0, 99));
     return $orderSn;
   }
+
+  /**
+   * 对外商品库存检测
+   * @param  string $orderID 订单ID
+   * @return array          返回订单状态
+   */
+  public function checkOrderStock($orderID)
+  {
+    $order_products = OrderProductModel::where('order_id', $orderID)->select();
+    $this->order_products = $order_products;
+    $this->products = $this->getProductByOrder($order_products);
+    $status = $this->getOrderStatus();
+    return $status;
+  }
 }
