@@ -48,7 +48,7 @@ class UserToken extends Token
   /**
    * 发放Token
    * @param  array $result openid和session_key
-   * @return [type]         [description]
+   * @return string            返回生成的key
    */
   public function grantToken($result)
   {

@@ -7,5 +7,5 @@ namespace app\api\model;
  */
 class OrderModel extends BaseModel
 {
-
+  protected $hidden = ['delete_time', 'create_time', 'update_time'];
 }

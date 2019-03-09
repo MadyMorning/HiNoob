@@ -28,7 +28,6 @@ class BannerController extends BaseController
     if (!$bannerInfo) {
       throw new ResourceException('无效的ID');
     }
-
     return \json($bannerInfo);
   }
 }
