@@ -53,4 +53,26 @@ class Token
     $uid = self::getTokenValue('uid');
     return $uid;
   }
+
+  /**
+   * 验证Token
+   *
+   * @param   string  $token  前台发送来的Token
+   *
+   * @return  boolean         返回boolean值
+   */
+  public function verifyToken($token)
+  {
+    if ($token == '') {
+      throw new TokenException('Token不能为空');
+    }
+
+    $res = cache($token);
+    if (!$res) {
+      // throw new TokenException('Token不存在或已失效');
+      return false;
+    }else{
+      return true;
+    }
+  }
 }

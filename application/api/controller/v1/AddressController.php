@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1;
 
-use think\Request;
 use app\api\validate\CreateAddressValidate;
 use app\api\validate\UpdateAddressValidate;
 use app\api\service\Token;
@@ -10,9 +9,6 @@ use app\api\model\UserModel;
 use app\api\model\UserAddressModel;
 use exception\ResourceException;
 use exception\RequestFailedException;
-use exception\PermissionException;
-use exception\SuccessMessage;
-use enum\PermissionEnum;
 
 /**
  * 地址Controller

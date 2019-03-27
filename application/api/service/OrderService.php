@@ -104,8 +104,8 @@ class OrderService
 
   /**
    * 获取商品状态
-   * @param  string $PID     订单中商品ID
-   * @param  string $count   订单中商品数量
+   * @param  string $oPID     订单中商品ID
+   * @param  string $oCount   订单中商品数量
    * @param  array $product  数据库中商品信息
    * @return array           返回商品状态
    */

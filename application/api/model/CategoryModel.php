@@ -6,7 +6,7 @@ use think\Model;
 
 class CategoryModel extends BaseModel
 {
-  protected $hidden = ['id', 'delete_time', 'update_time', 'topic_img_id'];
+  protected $hidden = ['delete_time', 'update_time', 'topic_img_id'];
 
   /**
    * 关联 ImageModel 模型

@@ -7,7 +7,7 @@ namespace app\api\validate;
 class TokenValidate extends BaseValidate
 {
   protected $rule = [
-    'code' => 'require'
+    'token' => 'require'
   ];
 
 }
