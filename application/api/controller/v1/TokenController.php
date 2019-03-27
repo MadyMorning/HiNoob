@@ -2,10 +2,10 @@
 
 namespace app\api\controller\v1;
 
-use think\Controller;
-use think\Request;
-use app\api\validate\TokenValidate;
+use app\api\validate\CodeValidate;
 use app\api\service\UserToken;
+use exception\TokenException;
+use app\api\service\Token;
 
 /**
  * Token Controller
@@ -15,15 +15,26 @@ class TokenController extends BaseController
   /**
    * 获取Token
    * @param  string $code 客户端发送来的code
-   * @return [type]       [description]
+   * @return object       返回生成的Token
    */
   public function getToken($code)
   {
     // 合法性验证
-    (new TokenValidate())->gocheck();
+    (new CodeValidate())->gocheck();
 
     $ut = new UserToken($code);
     $token = $ut->get();
     return \json(['token' => $token]);
+  }
+
+  /**
+   * 验证Token
+   *
+   * @param   string  $token  前台发送来的Token
+   */
+  public function verifyToken($token = '')
+  {
+    $isToken = Token::verifyToken($token);
+    return \json(['isToken' => $isToken]);
   }
 }

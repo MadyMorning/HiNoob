@@ -7,7 +7,7 @@ namespace app\api\model;
  */
 class ThemeModel extends BaseModel
 {
-  protected $hidden = ['id', 'delete_time', 'update_time', 'topic_img_id', 'head_img_id'];
+  protected $hidden = ['delete_time', 'update_time', 'topic_img_id', 'head_img_id'];
 
   /**
    * 关联ProductModel模型
