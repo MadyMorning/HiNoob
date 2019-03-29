@@ -4,7 +4,6 @@ namespace app\api\controller\v1;
 
 use app\api\validate\CodeValidate;
 use app\api\service\UserToken;
-use exception\TokenException;
 use app\api\service\Token;
 
 /**
@@ -31,6 +30,7 @@ class TokenController extends BaseController
    * 验证Token
    *
    * @param   string  $token  前台发送来的Token
+   * @return object           返回JSON格式数据
    */
   public function verifyToken($token = '')
   {

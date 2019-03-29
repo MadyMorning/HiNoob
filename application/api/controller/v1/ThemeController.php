@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1;
 
-use think\Request;
 use app\api\validate\IDCollection;
 use app\api\validate\IDMustPositiveInteger;
 use app\api\model\ThemeModel;
@@ -23,7 +22,6 @@ class ThemeController extends BaseController
     // 合法性验证
     (new IDCollection())->gocheck();
 
-    // $themeInfo = ThemeModel::with('topicImg,headImg,product,product.img,product.category')->select($ids);
     $themeInfo = ThemeModel::with('topicImg,headImg')->select($ids);
     // 有效性验证
     if (!$themeInfo) {

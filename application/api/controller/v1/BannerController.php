@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1;
 
-use think\Request;
 use app\api\validate\IDMustPositiveInteger;
 use app\api\model\BannerModel;
 use exception\ResourceException;

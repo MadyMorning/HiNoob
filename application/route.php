@@ -34,9 +34,13 @@ Route::get('api/:version/category/:id', 'api/:version.Category/getProduct');    
 Route::get('api/:version/token/user', 'api/:version.Token/getToken');   //获取Token
 Route::get('api/:version/token/verify', 'api/:version.Token/verifyToken');   //验证Token
 
+Route::get('api/:version/address', 'api/:version.Address/getAddress');   //获取地址
 Route::post('api/:version/address/create', 'api/:version.Address/createAddress');   //添加地址
 Route::put('api/:version/address/update', 'api/:version.Address/updateAddress');   //更新地址
 
 Route::post('api/:version/order/submit', 'api/:version.Order/submitOrders');   //提交订单
+Route::get('api/:version/order/history', 'api/:version.Order/getHistoryOrders'); //获取历史订单
+Route::get('api/:version/order/:id', 'api/:version.Order/getOrderDetail'); //获取订单详情
 
 Route::post('api/:version/pay/payOrder', 'api/:version.Pay/getPreOrder');   //支付
+Route::post('api/:version/pay/notify', 'api/:version.Pay/notify');   //支付回调

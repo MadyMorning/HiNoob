@@ -7,9 +7,9 @@ namespace exception;
 class WeiCateException extends BaseException
 {
   // 状态码
-  public $code = 200;
+  public $code = -1;
   // 错误信息
-  // public $message;
+  // public $message = '';
   // 自定义错误码
   public $error_code = 999;
 }

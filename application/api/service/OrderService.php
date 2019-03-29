@@ -67,8 +67,7 @@ class OrderService
       foreach ($products as $key => $product) {
         $products_array[$key] = $product->toArray();
       }
-      // $products = $products->toArray();
-      // $products = json_decode($products, true);
+
       return $products_array;
     } catch (\Exception $e) {
       throw new RequestFailedException($e->getMessage());
@@ -224,21 +223,6 @@ class OrderService
       throw new RequestFailedException('创建订单失败:' . $e->getMessage());
     }
   }
-
-  // private function RefreshInventory()
-  // {
-  //   try {
-  //     $this->products
-  //     $this->order_products
-  //     foreach ($this->products as $product) {
-  //       $product['id']
-  //
-  //     }
-  //   } catch (\Exception $e) {
-  //
-  //   }
-  //
-  // }
 
   /**
    * 生成订单号
