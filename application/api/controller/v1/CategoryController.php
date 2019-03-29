@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1;
 
-use think\Request;
 use app\api\model\ProductModel;
 use app\api\model\CategoryModel;
 use app\api\validate\IDMustPositiveInteger;

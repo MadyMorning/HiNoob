@@ -2,10 +2,13 @@
 
 namespace app\api\controller\v1;
 
-use think\Request;
 use app\api\service\Token;
 use app\api\service\OrderService;
 use app\api\validate\OrderValidate;
+use app\api\validate\PagingParmeterValidate;
+use app\api\model\OrderModel;
+use app\api\validate\IDMustPositiveInteger;
+use exception\ResourceException;
 /**
  * 订单Controller
  */
@@ -37,5 +40,54 @@ class OrderController extends BaseController
     $result = $orderService->placeOrder($uid, $order_products);
 
     return \json($result);
+  }
+
+  /**
+   * 获取历史订单
+   *
+   * @param   integer  $page  当前页码 默认为 1
+   * @param   integer  $size  每页展示的数据 默认为 10
+   *
+   * @return  object         返回分页数据
+   */
+  public function getHistoryOrders($page = 1, $size = 10)
+  {
+    $this->userAndhigher();
+    (new PagingParmeterValidate())->gocheck();
+
+    $uid = Token::getTokenUID();
+    $paginateOrder = OrderModel::where('user_id', $uid)->order('create_time', 'desc')->paginate($size, true, ['page' => $page]);
+    if ($paginateOrder->isEmpty()) {
+      return \json([
+        'data' => [],
+        'current_page' => $paginateOrder->getCurrentPage() //当前页码
+      ]);
+    }
+    return json($paginateOrder->toArray());
+    // return \json([
+    //   'data' => $paginateOrder->toArray(),
+    //   // 'data' => \collection($paginateOrder)->hidden(['snap_items']),
+    //   'current_page' => $paginateOrder->getCurrentPage() //当前页码
+    // ]);
+  }
+
+  /**
+   * 获取订单详情
+   *
+   * @param   string  $id  订单ID
+   *
+   * @return  object    返回订单信息
+   */
+  public function getOrderDetail($id)
+  {
+    $this->userAndhigher();
+    (new IDMustPositiveInteger())->gocheck();
+
+    $orderDetail = OrderModel::find($id);
+    if (!$orderDetail) {
+      throw new ResourceException('订单不存在');
+    }
+
+    return \json($orderDetail->hidden(['prepay_id']));
   }
 }

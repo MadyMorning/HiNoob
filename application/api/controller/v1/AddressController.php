@@ -18,6 +18,29 @@ class AddressController extends BaseController
   // protected $beforeActionList = [
   //   'front' => ['only'=>'createAddress'],
   // ];
+  
+  /**
+   * 获取用户地址信息
+   *
+   * @return  object  返回JSON格式数据
+   */
+  public function getAddress()
+  {
+    $this->userAndhigher();
+    // 有效性验证
+    $uid = Token::getTokenUID();
+    $userInfo = UserModel::find($uid);
+    if (!$userInfo) {
+      throw new ResourceException('用户不存在');
+    }
+
+    $userAddressInfo = UserAddressModel::where('user_id', $uid)->find();
+    if (!$userAddressInfo) {
+      throw new ResourceException('用户地址信息不存在');
+    }
+
+    return \json($userAddressInfo);
+  }
 
   /**
    * 新增地址
@@ -87,7 +110,7 @@ class AddressController extends BaseController
     try {
       if ($addressInfo->save($data)) {
         return \json([
-          'message' => '添加成功',
+          'message' => '更新成功',
           'error_code' => 0
         ]);
       }

@@ -61,7 +61,7 @@ class Token
    *
    * @return  boolean         返回boolean值
    */
-  public function verifyToken($token)
+  public static function verifyToken($token)
   {
     if ($token == '') {
       throw new TokenException('Token不能为空');
@@ -69,7 +69,6 @@ class Token
 
     $res = cache($token);
     if (!$res) {
-      // throw new TokenException('Token不存在或已失效');
       return false;
     }else{
       return true;
