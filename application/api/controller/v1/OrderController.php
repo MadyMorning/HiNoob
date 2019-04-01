@@ -43,12 +43,12 @@ class OrderController extends BaseController
   }
 
   /**
-   * 获取历史订单
+   * 获取用户历史订单（分页）
    *
    * @param   integer  $page  当前页码 默认为 1
    * @param   integer  $size  每页展示的数据 默认为 10
    *
-   * @return  object         返回分页数据
+   * @return  object         返回用户历史订单分页数据
    */
   public function getHistoryOrders($page = 1, $size = 10)
   {
@@ -64,11 +64,24 @@ class OrderController extends BaseController
       ]);
     }
     return json($paginateOrder->toArray());
-    // return \json([
-    //   'data' => $paginateOrder->toArray(),
-    //   // 'data' => \collection($paginateOrder)->hidden(['snap_items']),
-    //   'current_page' => $paginateOrder->getCurrentPage() //当前页码
-    // ]);
+  }
+  
+  /**
+   * 获取用户历史订单（全部）
+   *
+   * @return  object         返回用户历史订单数据
+   */
+  public function getAllHistoryOrders()
+  {
+    $this->userAndhigher();
+    (new PagingParmeterValidate())->gocheck();
+
+    $uid = Token::getTokenUID();
+    $OrderInfo = OrderModel::where('user_id', $uid)->order('create_time', 'desc')->select();
+    if (!$OrderInfo) {
+      return \json($OrderInfo);
+    }
+    return json(\collection($OrderInfo)->hidden(['user_id', 'delete_time', 'prepay_id', 'snap_address', 'snap_items'])->toArray());
   }
 
   /**

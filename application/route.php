@@ -39,7 +39,8 @@ Route::post('api/:version/address/create', 'api/:version.Address/createAddress')
 Route::put('api/:version/address/update', 'api/:version.Address/updateAddress');   //更新地址
 
 Route::post('api/:version/order/submit', 'api/:version.Order/submitOrders');   //提交订单
-Route::get('api/:version/order/history', 'api/:version.Order/getHistoryOrders'); //获取历史订单
+Route::get('api/:version/order/history', 'api/:version.Order/getHistoryOrders'); //获取历史订单（分页）
+Route::get('api/:version/order/history_all', 'api/:version.Order/getAllHistoryOrders'); //获取历史订单（全部）
 Route::get('api/:version/order/:id', 'api/:version.Order/getOrderDetail'); //获取订单详情
 
 Route::post('api/:version/pay/payOrder', 'api/:version.Pay/getPreOrder');   //支付
