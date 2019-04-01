@@ -17,10 +17,10 @@ class OrderController extends BaseController
   /**
    * 1.用户点击提交订单，向API提交商品相关信息
    * 2.API接收到数据，进行库存量检测
-   * 3.提交订单成功，数据库库存量减去相应数量，将订单状态置为未支付，
-   * 4.用户付款成功，将订单状态置为已支付，付款失败，返回失败消息
-   * 5.若超时(30mins)未支付，将订单状态置为已取消，且将库存量恢复；
-   * 6.用户付款失败，不取消订单；只有在用户主动取消或超时(30mins)未处理时才取消订单
+   * 3.库存量检测通过，提交订单成功，订单状态置为‘未支付’，可以支付
+   * 4.小程序调用支付接口进行支付，再次进行库存量检测
+   * 5.服务器调用支付接口进行支付，返回支付结果
+   * 6.用户付款成功，再次进行库存量检测，更改订单状态
    */
 
   /**
@@ -43,12 +43,12 @@ class OrderController extends BaseController
   }
 
   /**
-   * 获取历史订单
+   * 获取用户历史订单（分页）
    *
    * @param   integer  $page  当前页码 默认为 1
    * @param   integer  $size  每页展示的数据 默认为 10
    *
-   * @return  object         返回分页数据
+   * @return  object         返回用户历史订单分页数据
    */
   public function getHistoryOrders($page = 1, $size = 10)
   {
@@ -64,11 +64,24 @@ class OrderController extends BaseController
       ]);
     }
     return json($paginateOrder->toArray());
-    // return \json([
-    //   'data' => $paginateOrder->toArray(),
-    //   // 'data' => \collection($paginateOrder)->hidden(['snap_items']),
-    //   'current_page' => $paginateOrder->getCurrentPage() //当前页码
-    // ]);
+  }
+  
+  /**
+   * 获取用户历史订单（全部）
+   *
+   * @return  object         返回用户历史订单数据
+   */
+  public function getAllHistoryOrders()
+  {
+    $this->userAndhigher();
+    (new PagingParmeterValidate())->gocheck();
+
+    $uid = Token::getTokenUID();
+    $OrderInfo = OrderModel::where('user_id', $uid)->order('create_time', 'desc')->select();
+    if (!$OrderInfo) {
+      return \json($OrderInfo);
+    }
+    return json(\collection($OrderInfo)->hidden(['user_id', 'delete_time', 'prepay_id', 'snap_address', 'snap_items'])->toArray());
   }
 
   /**

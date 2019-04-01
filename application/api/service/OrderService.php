@@ -115,7 +115,9 @@ class OrderService
       'haveStock' => false,  //商品是否有库存
       'count'     => 0,      //商品购买数量
       'name'      => '',     //商品名称
-      'eachPrice' => 0       //每一种商品的总价
+      'eachPrice' => 0,      //每一种商品的总价
+      'image'     => '',     //商品图片
+      'price'     => 0       //商品单价
     ];
 
     // 将从客户端发送来的商品ID与数据库中商品ID对应，并保存
@@ -135,7 +137,9 @@ class OrderService
     $pStatus['count']     = $oCount;
     $pStatus['name']      = $product['name'];
     $pStatus['eachPrice'] = $product['price'] * $oCount;
-
+    $pStatus['image']     = $product['image'];
+    $pStatus['price']     = $product['price'];
+    
     return $pStatus;
   }
 
